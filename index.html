@@ -1,0 +1,105 @@
+<?php
+if (isset($_GET['action']) && $_GET['action'] == 'gen') {
+    header("Content-Type: text/plain");
+
+    $baseUrl = "https://tempmail.bjcoderx.workers.dev";
+    $response = file_get_contents("$baseUrl/gen");
+    $data = json_decode($response, true);
+
+    $creditText = <<<EOT
+------------------------------
+Api Provider Channel: @treasure_king_tk
+Join Our VIP Channel: @CZui8RQStGlkNGVl
+Developer: Md Tanvir Islam
+Contact: @IslamTanvir0
+------------------------------
+EOT;
+
+    if ($data && $data['status'] == 'ok') {
+        echo "Temporary Mail Generated Successfully\n";
+        echo "Email: {$data['mail']}\n";
+    } else {
+        echo "Failed to generate email.\n";
+    }
+
+    echo "\n$creditText";
+    exit;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Temp Mail Generator - Md Tanvir Islam</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #eef2f3, #8e9eab);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 400px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    pre {
+      text-align: left;
+      background-color: #f4f4f4;
+      padding: 15px;
+      margin-top: 20px;
+      white-space: pre-wrap;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Generate Temp Mail</h1>
+  <button onclick="generateEmail()">Generate Now</button>
+  <pre id="result">Click the button to generate a temp mail address.</pre>
+</div>
+
+<script>
+  function generateEmail() {
+    const resultBox = document.getElementById('result');
+    resultBox.textContent = 'Loading...';
+
+    fetch('?action=gen')
+      .then(res => res.text())
+      .then(data => {
+        resultBox.textContent = data;
+      })
+      .catch(err => {
+        resultBox.textContent = 'Something went wrong. Please try again.';
+      });
+  }
+</script>
+
+</body>
+</html>

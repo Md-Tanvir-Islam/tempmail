@@ -1,36 +1,7 @@
-<?php
-if (isset($_GET['action']) && $_GET['action'] == 'gen') {
-    header("Content-Type: text/plain");
-
-    $baseUrl = "https://tempmail.bjcoderx.workers.dev";
-    $response = file_get_contents("$baseUrl/gen");
-    $data = json_decode($response, true);
-
-    $creditText = <<<EOT
-------------------------------
-Api Provider Channel: @treasure_king_tk
-Join Our VIP Channel: @CZui8RQStGlkNGVl
-Developer: Md Tanvir Islam
-Contact: @IslamTanvir0
-------------------------------
-EOT;
-
-    if ($data && $data['status'] == 'ok') {
-        echo "Temporary Mail Generated Successfully\n";
-        echo "Email: {$data['mail']}\n";
-    } else {
-        echo "Failed to generate email.\n";
-    }
-
-    echo "\n$creditText";
-    exit;
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Temp Mail Generator - Md Tanvir Islam</title>
   <style>
     body {
@@ -49,10 +20,6 @@ EOT;
       width: 400px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       text-align: center;
-    }
-    h1 {
-      font-size: 22px;
-      margin-bottom: 20px;
     }
     button {
       background-color: #4CAF50;
@@ -90,12 +57,12 @@ EOT;
     const resultBox = document.getElementById('result');
     resultBox.textContent = 'Loading...';
 
-    fetch('?action=gen')
+    fetch('/api/gen')
       .then(res => res.text())
       .then(data => {
         resultBox.textContent = data;
       })
-      .catch(err => {
+      .catch(() => {
         resultBox.textContent = 'Something went wrong. Please try again.';
       });
   }
